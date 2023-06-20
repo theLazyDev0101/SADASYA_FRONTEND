@@ -1,83 +1,47 @@
 import * as React from 'react';
-import './Registration.css'
+import './Login.css';
+import { ImageName } from '../../../../../enums';
+import { Link } from 'react-router-dom';
+
 
 export default function Registration() {
   return (
-        <body>
-            <section class="container forms">
-                <div class="form login">
-                    <div class="form-content">
-                        <header>Login</header>
-                        <form action="#">
-                            <div class="field input-field">
-                                <input type="email" placeholder="Email" class="input" />
+        <body className='registrationBody'>
+            <div class="registrationContainer">
+                    <div class="cover">
+                        <div class="front">
+                            <img class="backImg" src={ImageName.IMAGE_NAME.registrationFront} alt="" />
+                            <div class="text">
+                                <span class="text-1">Complete miles of journey <br /> with one step</span>
+                                <span class="text-2">Let's get started</span>
                             </div>
-                            <div class="field input-field">
-                                <input type="password" placeholder="Password" class="password" />
-                                <i class='bx bx-hide eye-icon'></i>
-                            </div>
-                            <div class="form-link">
-                                <a href="#" class="forgot-pass">Forgot password?</a>
-                            </div>
-                            <div class="field button-field">
-                                <button>Login</button>
-                            </div>
-                        </form>
-                        <div class="form-link">
-                            <span>Don't have an account? <a href="#" class="link signup-link">Signup</a></span>
                         </div>
                     </div>
-                    <div class="line"></div>
-                    <div class="media-options">
-                        <a href="#" class="field facebook">
-                            <i class='bx bxl-facebook facebook-icon'></i>
-                            <span>Login with Facebook</span>
-                        </a>
-                    </div>
-                    <div class="media-options">
-                        <a href="#" class="field google">
-                            <img src="#" alt="" class="google-img" />
-                            <span>Login with Google</span>
-                        </a>
+                    <div class="forms">
+                        <div class="form-content">
+                            <div class="login-form">
+                                <div class="title">Login</div>
+                                    <div class="input-boxes">
+                                        <div class="input-box">
+                                            <i class="fas fa-envelope"></i>
+                                            <input type="text" placeholder="Enter your email" required /> 
+                                        </div>
+                                        <div class="input-box">
+                                            <i class="fas fa-lock"></i>
+                                            <input type="password" placeholder="Enter your password" required /> 
+                                        </div>
+                                        <div class="text">
+                                            <a href="#">Forgot password?</a>
+                                        </div>
+                                        <button class="button input-box"> Submit
+                                            {/* <input type="submit" value="Sumbit" /> */}
+                                        </button>
+                                        <div class="text sign-up-text">Don't have an account? <Link to='/addCompany'>Sigup now</Link></div>
+                                    </div>
+                            </div>
                     </div>
                 </div>
-                <div class="form signup">
-                    <div class="form-content">
-                        <header>Signup</header>
-                        <form action="#">
-                            <div class="field input-field">
-                                <input type="email" placeholder="Email" class="input" />
-                            </div>
-                            <div class="field input-field">
-                                <input type="password" placeholder="Create password" class="password" />
-                            </div>
-                            <div class="field input-field">
-                                <input type="password" placeholder="Confirm password" class="password" />
-                                <i class='bx bx-hide eye-icon'></i>
-                            </div>
-                            <div class="field button-field">
-                                <button>Signup</button>
-                            </div>
-                        </form>
-                        <div class="form-link">
-                            <span>Already have an account? <a href="#" class="link login-link">Login</a></span>
-                        </div>
-                    </div>
-                    <div class="line"></div>
-                    <div class="media-options">
-                        <a href="#" class="field facebook">
-                            <i class='bx bxl-facebook facebook-icon'></i>
-                            <span>Login with Facebook</span>
-                        </a>
-                    </div>
-                    <div class="media-options">
-                        <a href="#" class="field google">
-                            <img src="#" alt="" class="google-img" />
-                            <span>Login with Google</span>
-                        </a>
-                    </div>
-                </div>
-            </section>
+            </div>
         </body>
   );
 }
