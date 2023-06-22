@@ -2,12 +2,12 @@ import axios from 'axios'
 import ApiConfigUrl from '../api'
 import { APP_URL } from '../config'
 
-export function ApiCall(uriName, payload) {
+export function ApiCall(uriName, request) {
     return new Promise(async function (resolved, reject){
         try {
             console.log('ApiConfigUrl', ApiConfigUrl)
             if(ApiConfigUrl.APP_LAST_URI[uriName].method == 'POST') {
-                axios.post(APP_URL.LOCAL_HOST + ApiConfigUrl.APP_LAST_URI[uriName].path, {payload : payload}).then(res => {
+                axios.post(APP_URL.LOCAL_HOST + ApiConfigUrl.APP_LAST_URI[uriName].path, request).then(res => {
                     let response = res.data;
                     resolved(response)
                 })

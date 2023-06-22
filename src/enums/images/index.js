@@ -12,6 +12,17 @@ import landingLogo from '../../assets/images/logo.svg'
 import pricingIllustration from '../../assets/images/pricing-illustration.svg'
 import registrationFront from '../../assets/images/frontImg.jpg'
 import registrationBack from '../../assets/images/backImg.jpg'
+import userNameImage from '../../assets/images/user.png'
+import emailImage from '../../assets/images/email.png'
+import phoneImage from '../../assets/images/contact.png'
+import passShow from '../../assets/images/pass-show.png'
+import passHide from '../../assets/images/pass-hide.png'
+import submitLoader from '../../assets/images/submitLoader.gif'
+import padlock from '../../assets/images/padlock.png'
+import google from '../../assets/images/google.png'
+import teams from '../../assets/images/teams.png'
+import slack from '../../assets/images/slack.png'
+
 
 export const IMAGE_NAME = Object.freeze({
     logoPng : logoPng,
@@ -27,5 +38,15 @@ export const IMAGE_NAME = Object.freeze({
     landingLogo : landingLogo,
     pricingIllustration : pricingIllustration,
     registrationBack : registrationBack,
-    registrationFront : registrationFront
+    registrationFront : registrationFront,
+    userNameImage : userNameImage,
+    emailimage : emailImage,
+    passShow : passShow,
+    passHide : passHide,
+    submitLoader : submitLoader,
+    phoneImage : phoneImage,
+    padlock : padlock,
+    google : google,
+    teams : teams,
+    slack : slack,
 })

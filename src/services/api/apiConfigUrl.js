@@ -9,4 +9,9 @@ export const APP_LAST_URI = Object.freeze({
         isAuth: false,
         method: "POST",
       },
+      checkEmail: {
+        path: "api/company/checkEmail",
+        isAuth: false,
+        method: "POST",
+      },
 })

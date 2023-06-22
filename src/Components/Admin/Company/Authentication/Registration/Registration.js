@@ -1,15 +1,145 @@
 import * as React from 'react';
+import { useState } from 'react';
 import './Registration.css';
 import { ImageName } from '../../../../../enums';
 import { Link } from 'react-router-dom';
 import { ApiCall } from '../../../../../services/middleware';
+import passwordToggle from '../../../../../services/password-toggle'
+import  { emailValidator, phoneValidator, passwordValidator } from '../../../../../validators'
 // import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 
 
 export default function Registration() {
-    function addCompany() {
-        const data = {}
-        let res = ApiCall("addCompany", data);
+    let [emailError, setEmailError] = useState(true)
+    let [phoneError, setPhoneError] = useState(true)
+    let [passwordError, setPasswordError] = useState(true)
+    let [repasswordError, setRepasswordError] = useState(true)
+    let [isSubmit, setSubmit] = useState(false)
+    async function addCompany() {
+        if(isSubmit) {
+            let organizationName = document.getElementById('reg-name').value;
+            let organizationEmail = document.getElementById('reg-email').value;
+            let phoneNumber = document.getElementById('reg-phone').value;
+            let password = document.getElementById('reg-pass').value;
+            const data = {}
+            let res = await ApiCall("addCompany", data);
+        }
+        
+    }
+    function togglePass(inputTextId, passwordShowClass, passwordHideClass) {
+        passwordToggle(inputTextId, passwordShowClass, passwordHideClass)
+    }
+    async function checkEmail() {
+        let email = document.getElementById('reg-email').value
+        let emailValidate = emailValidator(email)
+        if(emailValidate.status == false) {
+            document.getElementById('reg-error-email-text').innerHTML = emailValidate.message
+            document.getElementsByClassName('reg-email')[0].classList.add('reg-error')
+            document.getElementsByClassName('reg-error-email')[0].classList.remove('hide')
+            setEmailError(true)
+        }
+        else {
+            let checkEmailExist = await ApiCall("checkEmail", {email : email});
+            if(checkEmailExist.status == 500) {
+                document.getElementById('reg-error-email-text').innerHTML = 'Email Id is already in use'
+                document.getElementsByClassName('reg-email')[0].classList.add('reg-error')
+                document.getElementsByClassName('reg-error-email')[0].classList.remove('hide')
+                setEmailError(true)
+            }
+            else {
+                document.getElementsByClassName('reg-email')[0].classList.remove('reg-error')
+                document.getElementsByClassName('reg-error-email')[0].classList.add('hide')
+                document.getElementById('reg-error-email-text').innerHTML = ''
+                setEmailError(false)
+            }
+            if(phoneError == false && passwordError == false && repasswordError == false) {
+                setSubmit(true)
+                document.getElementById('reg-submit').disabled = false
+            }
+            else {
+                setSubmit(false)
+                document.getElementById('reg-submit').disabled = true
+            }
+        }
+    }
+    function checkPhone() {
+        let phone = document.getElementById('reg-phone').value
+        let phoneValidate = phoneValidator(phone)
+        if(phoneValidate.status == false) {
+            document.getElementById('reg-error-phone-text').innerHTML = phoneValidate.message
+            document.getElementsByClassName('reg-phone')[0].classList.add('reg-error')
+            document.getElementsByClassName('reg-error-phone')[0].classList.remove('hide')
+            setPhoneError(true)
+        }
+        else {
+            document.getElementsByClassName('reg-phone')[0].classList.remove('reg-error')
+            document.getElementsByClassName('reg-error-phone')[0].classList.add('hide')
+            document.getElementById('reg-error-phone-text').innerHTML = ''
+            setPhoneError(false)
+            if(emailError == false && passwordError == false && repasswordError == false) {
+                setSubmit(true)
+                document.getElementById('reg-submit').disabled = false
+            }
+            else {
+                setSubmit(false)
+                document.getElementById('reg-submit').disabled = true
+            }
+        }
+    }
+
+    function checkPassword() {
+        let password = document.getElementById('reg-pass').value
+        let passwordValidate = passwordValidator(password)
+        if(passwordValidate.status == false) {
+            document.getElementById('reg-error-password-text').innerHTML = passwordValidate.message
+            document.getElementsByClassName('reg-password')[0].classList.add('reg-error')
+            document.getElementsByClassName('reg-error-password')[0].classList.remove('hide')
+            setPasswordError(true)
+        }
+        else {
+            document.getElementsByClassName('reg-password')[0].classList.remove('reg-error')
+            document.getElementsByClassName('reg-error-password')[0].classList.add('hide')
+            document.getElementById('reg-error-password-text').innerHTML = ''
+            setPasswordError(false)
+            if(emailError == false && phoneError == false && repasswordError == false) {
+                setSubmit(true)
+                document.getElementById('reg-submit').disabled= false
+            }
+            else {
+                setSubmit(false)
+                document.getElementById('reg-submit').disabled = true
+            }
+        }
+    }
+
+    function checkRePassword() {
+        let repassword  = document.getElementById('reg-repass').value
+        let password    = document.getElementById('reg-pass').value
+        if(password != repassword) {
+            document.getElementById('reg-error-repassword-text').innerHTML = "Both Password doesn't match"
+            document.getElementsByClassName('reg-repassword')[0].classList.add('reg-error')
+            document.getElementsByClassName('reg-error-repassword')[0].classList.remove('hide')
+            setRepasswordError(true)
+        }
+        else {
+            document.getElementsByClassName('reg-repassword')[0].classList.remove('reg-error')
+            document.getElementsByClassName('reg-error-repassword')[0].classList.add('hide')
+            document.getElementById('reg-error-repassword-text').innerHTML = ''
+            setRepasswordError(false)
+            console.log('emailError', emailError)
+            console.log('phoneError', phoneError)
+            console.log('passwordError', passwordError)
+            console.log('repasswordError', repasswordError)
+            if(emailError == false && phoneError == false && passwordError == false ) {
+                setSubmit(true)
+                document.getElementById('reg-submit').disabled = false
+                console.log('allOk')
+            }
+            else {
+                setSubmit(false)
+                document.getElementById('reg-submit').disabled = true
+            }
+        }
     }
   return (
         <body className='registrationBody'>
@@ -31,30 +161,69 @@ export default function Registration() {
                                     <div className="input-boxes">
                                         <div className="input-box">
                                             <img src={ImageName.IMAGE_NAME.userNameImage} className='input-icon' />
-                                            <input type="text" placeholder="Enter Organization name" required />
+                                            <input type="text" className='' placeholder="Enter Organization name" required />
+                                        </div>
+                                        <div className='reg-error-message hide'>
+                                            <span id="reg-error-name"></span>
                                         </div>
                                         <div className="input-box">
                                             <img src={ImageName.IMAGE_NAME.emailimage} className='input-icon' />
-                                            <input type="text" placeholder="Enter Organization email" required />
+                                            <input 
+                                                type="text"
+                                                id="reg-email"
+                                                className="reg-email" 
+                                                placeholder="Enter Organization email" 
+                                                onChange={checkEmail} 
+                                            />
+                                        </div>
+                                        <div className='reg-error-message reg-error-email hide'>
+                                            <span id="reg-error-email-text"></span>
                                         </div>
                                         <div className="input-box">
                                             <img src={ImageName.IMAGE_NAME.phoneImage} className='input-icon' />
-                                            <input type="text" placeholder="Enter Contact No" required />
+                                            <input
+                                                type="text" 
+                                                id="reg-phone"
+                                                className='reg-phone'
+                                                placeholder="Enter Contact No"
+                                                onChange={checkPhone}
+                                            />
+                                        </div>
+                                        <div className='reg-error-message reg-error-phone hide'>
+                                            <span id="reg-error-phone-text"></span>
                                         </div>
                                         <div className="input-box">
                                             <img src={ImageName.IMAGE_NAME.padlock} className='input-icon' />
-                                            <input type="password" placeholder="Enter password" required />
-                                            <img src={ImageName.IMAGE_NAME.passHide} className='input-icon' />
-                                            <img src={ImageName.IMAGE_NAME.passShow} className='input-icon hide' />
+                                            <input 
+                                                type="password" 
+                                                id="reg-pass" 
+                                                className='reg-password'
+                                                placeholder="Enter password" 
+                                                onChange={checkPassword} 
+                                            />
+                                            <img src={ImageName.IMAGE_NAME.passHide} className='reg-pass-show input-icon clickable ' onClick={() => togglePass('reg-pass', 'reg-pass-show', 'reg-pass-hide')} />
+                                            <img onClick={() => togglePass('reg-pass', 'reg-pass-show', 'reg-pass-hide')} src={ImageName.IMAGE_NAME.passShow} className='reg-pass-hide input-icon hide clickable' />
+                                        </div>
+                                        <div className='reg-error-message reg-error-password hide'>
+                                            <span id="reg-error-password-text"></span>
                                         </div>
                                         <div className="input-box">
                                             <img src={ImageName.IMAGE_NAME.padlock} className='input-icon' />
-                                            <input type="password" placeholder="Re-Enter password" required />
-                                            <img src={ImageName.IMAGE_NAME.passHide} className='input-icon' />
-                                            <img src={ImageName.IMAGE_NAME.passShow} className='input-icon hide' />
+                                            <input 
+                                                type="password" 
+                                                id="reg-repass" 
+                                                className='reg-repassword'
+                                                placeholder="Re-Enter password" 
+                                                onChange={checkRePassword} 
+                                            />
+                                            <img onClick={() => togglePass('reg-repass', 'reg-repass-show', 'reg-repass-hide')} src={ImageName.IMAGE_NAME.passHide} className='reg-repass-show input-icon clickable ' />
+                                            <img onClick={() => togglePass('reg-repass', 'reg-repass-show', 'reg-repass-hide')} src={ImageName.IMAGE_NAME.passShow} className='reg-repass-hide input-icon hide clickable ' />
+                                        </div>
+                                        <div className='reg-error-message reg-error-repassword hide'>
+                                            <span id="reg-error-repassword-text"></span>
                                         </div>
                                         <div>
-                                            <button className="button input-box" onClick={addCompany}> 
+                                            <button className="button input-box" onClick={addCompany} id="reg-submit" disabled> 
                                                 <span className='button-text'>Submit</span>
                                                 <img src={ImageName.IMAGE_NAME.submitLoader} className='input-icon hide' />
                                             </button>
