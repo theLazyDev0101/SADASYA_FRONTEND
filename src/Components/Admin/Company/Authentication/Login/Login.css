@@ -205,3 +205,44 @@
     width: 100%;
   }
 }
+
+.input-icon {
+  width : 24px;
+  height : 24px;
+}
+.hide {
+  display: none;
+}
+.button-text {
+  margin-right: 5px;
+  font-size: 15px;
+}
+.social-login-icon {
+  width : 50px;
+  height : 50px;
+  margin: 35px;
+}
+.social-login {
+  display: flex;
+}
+.normal-span{
+  font-size: 4px;
+  color: black;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.login-error {
+  border-color: red!important;
+}
+.login-error-message span{
+  font-size: 14px;
+  color: red;
+}
+.login-button-disabled {
+  /* background-color: grey; */
+  cursor: auto;
+  opacity: 0.5;
+}

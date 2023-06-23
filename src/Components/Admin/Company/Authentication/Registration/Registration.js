@@ -2,10 +2,11 @@ import * as React from 'react';
 import { useState } from 'react';
 import './Registration.css';
 import { ImageName } from '../../../../../enums';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ApiCall } from '../../../../../services/middleware';
 import passwordToggle from '../../../../../services/password-toggle'
 import  { emailValidator, phoneValidator, passwordValidator } from '../../../../../validators'
+// import  useHistory } from 'react-router-dom';
 // import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 
 
@@ -15,14 +16,36 @@ export default function Registration() {
     let [passwordError, setPasswordError] = useState(true)
     let [repasswordError, setRepasswordError] = useState(true)
     let [isSubmit, setSubmit] = useState(false)
-    async function addCompany() {
+
+    const navigate = useNavigate();
+
+    async function registerCompany() {
         if(isSubmit) {
+            document.getElementsByClassName('reg-loader')[0].classList.remove('hide')
+            document.getElementsByClassName('reg-submit-button')[0].classList.add('reg-button-disabled')
             let organizationName = document.getElementById('reg-name').value;
             let organizationEmail = document.getElementById('reg-email').value;
             let phoneNumber = document.getElementById('reg-phone').value;
             let password = document.getElementById('reg-pass').value;
-            const data = {}
+            const data = {
+                organizationName : organizationName,
+                organizationEmail : organizationEmail,
+                phoneNumber : phoneNumber,
+                password : password,
+            }
             let res = await ApiCall("addCompany", data);
+            if(res.respCode == 200) {
+                let storedData = {
+                    'userId'    : res.response.userId,
+                    'email'     : res.response.email,
+                    'password'  : password
+                }
+                window.localStorage.setItem('userDetails', JSON.stringify(storedData));                
+                navigate('/verificationCompany');
+            }
+            else {
+                alert("some error occured")
+            }
         }
         
     }
@@ -54,11 +77,13 @@ export default function Registration() {
             }
             if(phoneError == false && passwordError == false && repasswordError == false) {
                 setSubmit(true)
-                document.getElementById('reg-submit').disabled = false
+                // document.getElementById('reg-submit').disabled = false
+                document.getElementsByClassName('reg-submit-button')[0].classList.remove('reg-button-disabled')
             }
             else {
                 setSubmit(false)
-                document.getElementById('reg-submit').disabled = true
+                // document.getElementById('reg-submit').disabled = true
+                document.getElementsByClassName('reg-submit-button')[0].classList.add('reg-button-disabled')
             }
         }
     }
@@ -78,11 +103,13 @@ export default function Registration() {
             setPhoneError(false)
             if(emailError == false && passwordError == false && repasswordError == false) {
                 setSubmit(true)
-                document.getElementById('reg-submit').disabled = false
+                // document.getElementById('reg-submit').disabled = false
+                document.getElementsByClassName('reg-submit-button')[0].classList.remove('reg-button-disabled')
             }
             else {
                 setSubmit(false)
-                document.getElementById('reg-submit').disabled = true
+                // document.getElementById('reg-submit').disabled = true
+                document.getElementsByClassName('reg-submit-button')[0].classList.add('reg-button-disabled')
             }
         }
     }
@@ -103,11 +130,13 @@ export default function Registration() {
             setPasswordError(false)
             if(emailError == false && phoneError == false && repasswordError == false) {
                 setSubmit(true)
-                document.getElementById('reg-submit').disabled= false
+                // document.getElementById('reg-submit').disabled= false
+                document.getElementsByClassName('reg-submit-button')[0].classList.remove('reg-button-disabled')
             }
             else {
                 setSubmit(false)
-                document.getElementById('reg-submit').disabled = true
+                // document.getElementById('reg-submit').disabled = true
+                document.getElementsByClassName('reg-submit-button')[0].classList.add('reg-button-disabled')
             }
         }
     }
@@ -132,12 +161,13 @@ export default function Registration() {
             console.log('repasswordError', repasswordError)
             if(emailError == false && phoneError == false && passwordError == false ) {
                 setSubmit(true)
-                document.getElementById('reg-submit').disabled = false
-                console.log('allOk')
+                // document.getElementById('reg-submit').disabled = false
+                document.getElementsByClassName('reg-submit-button')[0].classList.remove('reg-button-disabled')
             }
             else {
                 setSubmit(false)
-                document.getElementById('reg-submit').disabled = true
+                // document.getElementById('reg-submit').disabled = true
+                document.getElementsByClassName('reg-submit-button')[0].classList.add('reg-button-disabled')
             }
         }
     }
@@ -161,7 +191,7 @@ export default function Registration() {
                                     <div className="input-boxes">
                                         <div className="input-box">
                                             <img src={ImageName.IMAGE_NAME.userNameImage} className='input-icon' />
-                                            <input type="text" className='' placeholder="Enter Organization name" required />
+                                            <input type="text" id="reg-name" className='' placeholder="Enter Organization name" required />
                                         </div>
                                         <div className='reg-error-message hide'>
                                             <span id="reg-error-name"></span>
@@ -223,9 +253,10 @@ export default function Registration() {
                                             <span id="reg-error-repassword-text"></span>
                                         </div>
                                         <div>
-                                            <button className="button input-box" onClick={addCompany} id="reg-submit" disabled> 
+                                            <button className="reg-submit-button button input-box reg-button-disabled" onClick={registerCompany} id="reg-submit" > 
                                                 <span className='button-text'>Submit</span>
-                                                <img src={ImageName.IMAGE_NAME.submitLoader} className='input-icon hide' />
+                                                <img 
+                                                    src={ImageName.IMAGE_NAME.submitLoader} className='reg-loader input-icon hide' />
                                             </button>
                                         </div>
                                         <center><span className='text sign-up-text'>or use the any of the following options</span></center>

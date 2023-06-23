@@ -14,4 +14,9 @@ export const APP_LAST_URI = Object.freeze({
         isAuth: false,
         method: "POST",
       },
+      loginCompany: {
+        path: "api/company/loginCompany",
+        isAuth: false,
+        method: "POST",
+      },
 })

@@ -22,7 +22,11 @@ import padlock from '../../assets/images/padlock.png'
 import google from '../../assets/images/google.png'
 import teams from '../../assets/images/teams.png'
 import slack from '../../assets/images/slack.png'
-
+import employee from '../../assets/images/employee.png'
+import home from '../../assets/images/home.png'
+import leave from '../../assets/images/leave.png'
+import projects from '../../assets/images/projects.png'
+import logout from '../../assets/images/logout.png'
 
 export const IMAGE_NAME = Object.freeze({
     logoPng : logoPng,
@@ -49,4 +53,9 @@ export const IMAGE_NAME = Object.freeze({
     google : google,
     teams : teams,
     slack : slack,
+    employee : employee,
+    home : home,
+    leave : leave,
+    projects : projects,
+    logout : logout
 })
