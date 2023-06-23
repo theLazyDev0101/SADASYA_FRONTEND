@@ -14,7 +14,6 @@ const Header = () => {
     }
     useEffect(() => {
         let userDetails = JSON.parse(window.localStorage.getItem('userAuthentication'));
-        console.log(userDetails)
         if(userDetails) {
             document.getElementById('companyName').innerHTML = userDetails[0]['name']
         }
@@ -27,40 +26,40 @@ const Header = () => {
                     <i className="bx bx-menu" id="btn"></i>
                 </div>
                 <ul className="nav-list">
-                    <li>
+                    <li className='sidebar-menu'>
                         <i className="bx bx-search"></i>
                         <input type="text" placeholder="Search..." />
                         <span className="tooltip">Search</span>
                     </li>
-                    <li>
-                        <a href="#">
+                    <li className='sidebar-menu'>
+                        <Link to='/companyDashboard'>
                             <img className="bx bxl-c-plus-plus icon" src={ImageName.IMAGE_NAME.home} />
                             <span className="links_name">Home</span>
-                        </a>
+                        </Link>
                         <span className="tooltip">Home</span>
                     </li>
-                    <li>
-                        <a href="#">
+                    <li className='sidebar-menu'>
+                        <Link to='/employeeManagement'>
                             <img className="bx bxl-c-plus-plus icon" src={ImageName.IMAGE_NAME.employee} />
                             <span className="links_name">Employee</span>
-                        </a>
+                        </Link>
                         <span className="tooltip">Employee</span>
                     </li>
-                    <li>
+                    <li className='sidebar-menu'>
                         <a href="#">
                             <img className="bx bxl-c-plus-plus icon" src={ImageName.IMAGE_NAME.leave} />
                             <span className="links_name">Leaves</span>
                         </a>
                         <span className="tooltip">Leave Management</span>
                     </li>
-                    <li>
+                    <li className='sidebar-menu'>
                         <a href="#">
                             <img className="bx bxl-c-plus-plus icon" src={ImageName.IMAGE_NAME.projects} />
                             <span className="links_name">Projects</span>
                         </a>
                         <span className="tooltip">Projects</span>
                     </li>
-                    <li>
+                    <li className='sidebar-menu'>
                         <a onClick={signout}>
                             <img className="bx bxl-c-plus-plus icon" src={ImageName.IMAGE_NAME.logout} />
                             <span className="links_name">Sign Out</span>

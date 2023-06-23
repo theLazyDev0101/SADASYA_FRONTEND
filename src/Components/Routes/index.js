@@ -5,6 +5,8 @@ import Registration from '../Admin/Company/Authentication/Registration/Registrat
 import Login from '../Admin/Company/Authentication/Login/Login'
 import Verification from "../Admin/Company/Authentication/Verification/Verification";
 import Home from "../Admin/Company/Dashboard/Body/Home/Home";
+import Employee from "../Admin/Company/Dashboard/Body/Employee/Employee"
+
 
 const appRouter = () => {
     return (
@@ -15,6 +17,7 @@ const appRouter = () => {
                 <Route path="/loginCompany" element={<Login />} />
                 <Route path="/verificationCompany" element={<Verification />} />
                 <Route path="/companyDashboard" element={<Home />} />
+                <Route path="/employeeManagement" element={<Employee />} />
             </Routes>
         </Router>
     )

@@ -19,4 +19,14 @@ export const APP_LAST_URI = Object.freeze({
         isAuth: false,
         method: "POST",
       },
+      addEmployee : {
+        path : "api/employee/addEmployee",
+        isAuth : false,
+        method : 'POST'
+      },
+      getAllEmployee : {
+        path : 'api/employee/getAllEmployee',
+        isAuth : false,
+        method : 'POST'
+      }
 })
