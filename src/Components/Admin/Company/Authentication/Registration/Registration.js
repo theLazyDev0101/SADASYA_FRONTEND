@@ -1,16 +1,35 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './Registration.css';
 import { ImageName } from '../../../../../enums';
+import GoogleSignInComponent from '../../../../../enums/external-links';
 import { Link, useNavigate } from 'react-router-dom';
 import { ApiCall } from '../../../../../services/middleware';
 import passwordToggle from '../../../../../services/password-toggle'
 import  { emailValidator, phoneValidator, passwordValidator } from '../../../../../validators'
+import { type } from '@testing-library/user-event/dist/type';
 // import  useHistory } from 'react-router-dom';
 // import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 
 
 export default function Registration() {
+    useEffect(() => {
+        const handleResponse = (response) => {
+            console.log('reposnse', response)
+        }
+        const google = window.google;
+        google.accounts.id.initialize({
+            client_id: "576091183163-uu7qqabsholbklqcbc7rl2ips7l20b4d.apps.googleusercontent.com",
+            callback: handleResponse
+        });
+        google.accounts.id.renderButton(
+            document.getElementById("signInDiv"),
+            { type: "icon", size: "large", shape : 'circle', width: 1000 }  
+        );
+        // google.accounts.id.prompt();
+        
+      }, []);
+
     let [emailError, setEmailError] = useState(true)
     let [phoneError, setPhoneError] = useState(true)
     let [passwordError, setPasswordError] = useState(true)
@@ -261,7 +280,24 @@ export default function Registration() {
                                         </div>
                                         <center><span className='text sign-up-text'>or use the any of the following options</span></center>
                                         <div className='social-login'>
-                                            <img src={ImageName.IMAGE_NAME.google} className='social-login-icon' />
+                                            
+                                            {/* <div id="g_id_onload"
+                                                data-client_id="576091183163-uu7qqabsholbklqcbc7rl2ips7l20b4d.apps.googleusercontent.com"
+                                                data-context="signin"
+                                                data-ux_mode="popup"
+                                                data-callback="handleResponse"
+                                                data-auto_prompt="false">
+                                            </div>
+
+                                            <div className="g_id_signin social-login-icon"
+                                                data-type="icon"
+                                                data-shape="circle"
+                                                data-theme="outline"
+                                                data-text="signin_with"
+                                                data-size="large">
+                                            </div> */}
+                                            <div id="signInDiv" className='social-login-icon'></div>
+                                            {/* <img src={ImageName.IMAGE_NAME.google} className='social-login-icon' /> */}
                                             <img src={ImageName.IMAGE_NAME.teams} className='social-login-icon' />
                                             <img src={ImageName.IMAGE_NAME.slack} className='social-login-icon' />
                                         </div>
