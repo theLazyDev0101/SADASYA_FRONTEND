@@ -4,56 +4,11 @@ import './Employee.css'
 import '../../Header/Header.css'
 import Header from '../../Header/Header'
 import { ApiCall } from '../../../../../../services/middleware'
-import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
-import "bootstrap/dist/css/bootstrap.css";
-import { Button, Col, Row, Table } from "react-bootstrap";
-import {
-  DatatableWrapper,
-  Filter,
-  Pagination,
-  PaginationOptions,
-  TableBody,
-  TableColumnType,
-  TableHeader
-} from "react-bs-datatable";
+import BootstrapTable from 'react-bootstrap-table-next';
 
 
 export default function Employee() {
-    const STORY_HEADERS  = [
-        {
-          prop: "name",
-          title: "Name",
-          isFilterable: true
-        },
-        {
-          prop: "email",
-          title: "Email"
-        },
-        {
-          prop: "phoneNumber",
-          title: "Phone Number"
-        },
-        {
-          prop: "age",
-          title: "Age"
-        },
-        {
-          prop: "gender",
-          title: "Gender",
-        },
-        {
-            prop: "startDate",
-            title: "Date of Joining",
-        },
-        {
-            prop: "status",
-            title: "Status",
-        },
-        {
-            prop: "type",
-            title: "Type",
-        }
-      ];
+    
     const [employeeDetails, setEmployeeDetails] = useState([])    
     useEffect(() => {
         const fetchEmployeeDetails = async() => {
@@ -72,76 +27,44 @@ export default function Employee() {
 
 
     function TableShow() {
-        return (
-            <DatatableWrapper
-            body={employeeDetails}
-            headers={STORY_HEADERS}
-            paginationOptionsProps={{
-              initialState: {
-                rowsPerPage: 10,
-                options: [5, 10, 15, 20]
-              }
-            }}
-          >
-            <Row className="mb-4 p-2">
-              <Col
-                xs={12}
-                lg={4}
-                className="d-flex flex-col justify-content-end align-items-end"
-              >
-                <Filter />
-              </Col>
-              <Col
-                xs={12}
-                sm={6}
-                lg={4}
-                className="d-flex flex-col justify-content-lg-center align-items-center justify-content-sm-start mb-2 mb-sm-0"
-              >
-                <PaginationOptions />
-              </Col>
-              <Col
-                xs={12}
-                sm={6}
-                lg={4}
-                className="d-flex flex-col justify-content-end align-items-end"
-              >
-                <Pagination />
-              </Col>
-            </Row>
-            <Table>
-              <TableHeader />
-              <TableBody />
-            </Table>
-          </DatatableWrapper>
-            // <MDBTable responsive>
-            //     <MDBTableHead>
-            //         <tr>
-            //             <th scope='col'>Name</th>
-            //             <th scope='col'>Email</th>
-            //             <th scope='col'>Phone Number</th>
-            //             <th scope='col'>Age</th>
-            //             <th scope='col'>Gender</th>
-            //             <th scope='col'>Date of Joining</th>
-            //             <th scope='col'>Status</th>
-            //             <th scope='col'>Employment Type</th>
-            //         </tr>
-            //     </MDBTableHead>
-            //     <MDBTableBody>
-            //         {employeeDetails.map((employee) => (
-            //             <tr>
-            //                 <td>{employee.name}</td>
-            //                 <td>{employee.email}</td>
-            //                 <td>{employee.phoneNumber}</td>
-            //                 <td>{employee.age}</td>
-            //                 <td>{employee.gender}</td>
-            //                 <td>{employee.startDate}</td>
-            //                 <td>{employee.status}</td>
-            //                 <td>{employee.type}</td>
-            //             </tr>
-            //         ))}
-            //     </MDBTableBody>
-            // </MDBTable>
-        )
+      const columns = [
+        {
+          dataField: 'name',
+          text: 'Name',
+        },
+        {
+          dataField: 'email',
+          text: 'Email',
+        },
+        {
+          dataField: 'phoneNumber',
+          text: 'Phone Number',
+        },
+        {
+          dataField: 'age',
+          text: 'Age',
+        },
+        {
+          dataField: 'gender',
+          text: 'Gender',
+        },
+        {
+          dataField: 'startDate',
+          text: 'Joining Date',
+        },
+        {
+          dataField: 'status',
+          text: 'Employee Status',
+        },
+        {
+          dataField: 'type',
+          text: 'Type',
+        }
+      ]  
+      
+      return (
+        <BootstrapTable keyField='id' data={ employeeDetails } columns={ columns } striped hover condensed />
+      )
         
     }
     
